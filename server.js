@@ -37,7 +37,7 @@ app.post("/api/contact", async (req, res) => {
     try {
       const data = await resend.emails.send({
         from: "Double Merit <onboarding@resend.dev>",
-        to: ["doublemerit1@gmail.com"],
+        to: ["tajudeenkhabab2@gmail.com"],
         replyTo: email,
         subject: `New Enquiry from ${firstName}`,
         html: `
