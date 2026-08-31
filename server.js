@@ -32,18 +32,18 @@ app.get("/api/test", (req, res) => {
 // CONTACT ROUTE
 // =========================
 app.post("/api/contact", async (req, res) => {
-    const { firstName, email, phone, message } = req.body;
+    const { fullName, email, phone, message } = req.body;
   
     try {
       const data = await resend.emails.send({
         from: "Double Merit <onboarding@resend.dev>",
         to: ["doublemeritreceivemails@gmail.com"],
         replyTo: email,
-        subject: `New Enquiry from ${firstName}`,
+        subject: `New Enquiry from ${fullName}`,
         html: `
           <h2>New Contact Form Enquiry</h2>
   
-          <p><strong>Name:</strong> ${firstName}</p>
+          <p><strong>Name:</strong> ${fullName}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
   
