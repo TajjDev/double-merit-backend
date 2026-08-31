@@ -13,49 +13,64 @@ app.get("/", (req, res) => {
   res.send("Backend is running ✅");
 });
 
-// Contact route
+// Contact routed"}</p>
 app.post("/api/contact", async (req, res) => {
-  const { firstName, email, phone, message } = req.body;
-
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
+    const { firstName, email, phone, message } = req.body;
+  
+    console.log("CONTACT REQUEST RECEIVED:", {
+      firstName,
+      email,
+      phone,
+      message,
     });
-    await transporter.sendMail({
+  
+    console.log("EMAIL_USER exists:", !!process.env.EMAIL_USER);
+    console.log("EMAIL_PASS exists:", !!process.env.EMAIL_PASS);
+  
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+  
+      console.log("Trying to send email...");
+  
+      await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: process.env.EMAIL_USER,
         replyTo: email,
         subject: `New Enquiry from ${firstName}`,
         html: `
           <h2>New Contact Form Enquiry</h2>
-      
+  
           <p><strong>Name:</strong> ${firstName}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-      
+  
           <hr/>
-      
+  
           <p><strong>Message:</strong></p>
           <p>${message}</p>
         `,
       });
-
-    res.json({ success: true });
-} catch (err) {
-    console.error("EMAIL ERROR:", err);
   
-    res.status(500).json({
-      success: false,
-      message: "Email failed",
-      error: err.message,
-      code: err.code,
-    });
-  }
-});
+      console.log("EMAIL SENT SUCCESSFULLY");
+  
+      res.json({ success: true });
+    } catch (err) {
+      console.error("EMAIL ERROR:", err);
+  
+      res.status(500).json({
+        success: false,
+        message: "Email failed",
+        error: err.message,
+        code: err.code,
+      });
+    }
+  });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
