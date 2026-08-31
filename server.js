@@ -12,7 +12,10 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Backend is running ✅");
 });
-
+app.get("/api/test", (req, res) => {
+    console.log("TEST ROUTE WAS HIT");
+    res.json({ message: "API is working" });
+  });
 // Contact routed"}</p>
 app.post("/api/contact", async (req, res) => {
     const { firstName, email, phone, message } = req.body;
