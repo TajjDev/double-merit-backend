@@ -47,10 +47,12 @@ app.post("/api/contact", async (req, res) => {
     res.json({ success: true });
 } catch (err) {
     console.error("EMAIL ERROR:", err);
+  
     res.status(500).json({
       success: false,
       message: "Email failed",
       error: err.message,
+      code: err.code,
     });
   }
 });
