@@ -55,14 +55,23 @@ app.post("/api/contact", async (req, res) => {
   try {
     // Create Gmail transporter
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    console.log("Trying to send email...");
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+      
+      console.log("Checking Gmail connection...");
+      
+      await transporter.verify();
+      
+      console.log("Gmail connection successful!");
+      
+      console.log("Trying to send email...");
+      
 
     // Send email
     await transporter.sendMail({
